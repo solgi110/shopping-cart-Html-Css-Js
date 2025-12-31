@@ -7,6 +7,7 @@
   <title>Cart & API</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.3/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://kit.fontawesome.com/2cca22deab.js" crossorigin="anonymous"></script>
 
 </head>
@@ -15,7 +16,7 @@
 
 
 
-
+  
 
   <header class="headerContainer">
 
@@ -55,9 +56,11 @@
 
     <section class="seconContainer">
 
+      <h1 class="errorCart"> </h1>
+
       <div class="cartWrapperButton">
 
-        <p class="totalPrice"> TotalPrice : $<span> </span></p>
+        <p class="totalPrice"> TotalPrice : $<span class="pricing"> </span></p>
 
         <div>
           <button class="btnc"> clear All </button>
@@ -69,7 +72,7 @@
 
       <div class="cartProduct">
 
-        <h1 class="empty">Cart is Empty ! </h1>
+        <!-- <h1 class="empty"> </h1> -->
 
         <table class="cartitem">
 

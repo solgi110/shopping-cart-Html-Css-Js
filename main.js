@@ -8,9 +8,30 @@ const productlist = document.querySelector('.productList')
 const placeOfCarts = document.querySelector('.cartitem')
 const buttonCategories = document.querySelector('.buttonCategory')
 const Input = document.querySelector('.search-input')
+const errorText = document.querySelector('.notexist')
+const cartMessage = document.querySelector('.errorCart')
+const cartWrapper = document.querySelector('.cartWrapperButton')
+const totalPrice = document.querySelector('.pricing')
+const clearButton = document.querySelector('.btnc')
+const sendButton = document.querySelector('.btns')
+const numberOfItem = document.querySelector('.number')
 
-cartButton.addEventListener('click', () => { firstSite.style.display = 'none', seconSite.style.display = 'block' });
-productsButton.addEventListener('click', () => { firstSite.style.display = 'block', seconSite.style.display = 'none' });
+
+
+cartButton.addEventListener('click', () => {
+
+  firstSite.style.display = 'none';
+  seconSite.style.display = 'block';
+  Input.value = "";
+});
+
+productsButton.addEventListener('click', () => {
+
+  firstSite.style.display = 'block';
+  seconSite.style.display = 'none';
+  Input.value = "";
+
+});
 
 
 
@@ -22,6 +43,9 @@ const getDataFromApi = async () => {
   const res = await fetch('https://fakestoreapi.com/products')
   const data = await res.json();
   loading.style.display = 'none'
+  cartMessage.style.display = '';
+  cartMessage.style.display = 'block';
+  productlist.innerHTML = ""
 
 
   console.log(data);
@@ -37,19 +61,11 @@ const getDataFromApi = async () => {
   }, ['all'])
 
 
-
-
-
-
-
-
-
-
-
   handelButtons(makeButton)
   renderProductSite(data)
   showItemsInCart()
   saveinLocalStorage()
+
 
 }
 
@@ -58,11 +74,9 @@ const renderProductSite = (data) => {
 
   data.forEach(item => {
 
-
     const { image, title, price, category, id } = item
 
     const backToDom = document.createElement('div')
-
     backToDom.classList = 'productItem';
 
     backToDom.innerHTML = `
@@ -94,14 +108,12 @@ const renderProductSite = (data) => {
 
 }
 
-///save item in Cart
+///save items in Cart
 
 const saveToCart = (item) => {
 
   const add = cart.find(s => s.id === item.id)
-
   if (!add) { cart.push({ ...item, quantity: 1 }) }
-
   else { add.quantity++ }
 
   showItemsInCart()
@@ -111,6 +123,40 @@ const saveToCart = (item) => {
 
 const showItemsInCart = () => {
   placeOfCarts.innerHTML = ""
+
+
+  if (cart.length === 0) {
+    cartMessage.style.display = 'block';
+    cartMessage.textContent = 'cart is empty !'
+    cartWrapper.style.display = 'none';
+
+
+  } else {
+    cartMessage.style.display = 'none';
+    cartMessage.textContent = '';
+    cartWrapper.style.display = 'block';
+  }
+
+
+  
+  ///item prices in cart
+
+  const totalP = cart.reduce((total, item) => {
+    return total + item.quantity * item.price
+
+  }, 0)
+
+  totalPrice.textContent = totalP.toLocaleString('en-US');
+
+
+  ///item quantity on basket
+
+  const itemQuantity = cart.reduce((acc, item) => {
+    return acc + item.quantity
+  }, 0)
+
+  numberOfItem.textContent = itemQuantity
+
 
   cart.forEach(item => {
 
@@ -178,6 +224,7 @@ const decreaseBtn = (item) => {
   saveinLocalStorage()
   showItemsInCart()
 
+
 }
 
 const increaseBtn = (item) => {
@@ -189,14 +236,17 @@ const increaseBtn = (item) => {
   saveinLocalStorage()
   showItemsInCart()
 
+
 }
 
 const deletBtn = (item) => {
 
   const finding = cart.findIndex(i => i.id === item.id);
   cart.splice(finding, 1);
-  saveinLocalStorage()
+
   showItemsInCart()
+  saveinLocalStorage()
+
 
 }
 
@@ -204,9 +254,10 @@ const deletBtn = (item) => {
 ///here is handel all button on DOM
 
 
-//Rendering
+//Rendering 
 
 const handelButtons = (buttons) => {
+  productlist.innerHTML = ""
 
   buttons.forEach(category => {
 
@@ -228,10 +279,12 @@ const handelButtons = (buttons) => {
 
 const searchItemCategory = async (it) => {
 
+
   const res = await fetch('https://fakestoreapi.com/products');
   const data = await res.json();
   productlist.innerHTML = ""
   loading.style.display = 'none'
+  Input.value = ""
 
   const index = it.dataset.category
   // console.log(index);
@@ -254,49 +307,44 @@ const searchItemCategory = async (it) => {
 Input.addEventListener('input', async (e) => {
 
   const value = e.target.value
-
   const yeees = await fetchTheValue(value)
-  renderProductSite(yeees)
 
+  if (yeees.length === 0) {
+    errorMessage('product not found !')
+    buttonCategories.style.display = 'none';
+
+  }
+
+  else {
+    renderProductSite(yeees)
+    hideError()
+    buttonCategories.style.display = 'block';
+
+  }
+
+
+  /// here is about focusing on input 
+  if (Input.value.length !== 0) {
+    firstSite.style.display = 'block';
+    seconSite.style.display = 'none';
+  }
 })
+
 
 
 const fetchTheValue = async (value) => {
 
   const res = await fetch('https://fakestoreapi.com/products');
   const data = await res.json();
-  productlist.innerHTML = ""
-  loading.style.display = 'none'
+  productlist.innerHTML = "";
+  loading.style.display = 'none';
 
+  const filterValue = data.filter(item => {
+    return item.title.toLowerCase().includes(value.toLowerCase().trim())
+  })
 
- const filterValue = data.filter( item => { 
-  return item.title.toLowerCase().includes(value.toLowerCase().trim())
-
- } )
-
-
-return filterValue
-
-
-
-
-
-
+  return filterValue
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //title product to shorting
@@ -304,8 +352,8 @@ return filterValue
 const titleLower = (title) => {
 
   const shortIt = title.split(" ");
-
   if (shortIt.length > 1) {
+
     return `${shortIt[0]}  ${shortIt[1]} ...`
   }
   else { return shortIt }
@@ -316,20 +364,69 @@ const saveinLocalStorage = () => {
   localStorage.setItem('cart', JSON.stringify(cart))
 }
 
+/// error handeling
+
+const errorMessage = (err) => {
+  errorText.textContent = err;
+  errorText.style.display = 'block';
+  cartMessage.textContent = err;
+  cartMessage.style.display = 'block';
+}
+
+const hideError = () => {
+  errorText.textContent = "";
+  errorText.style.display = 'none';
+  cartMessage.style.display = 'none';
+  cartMessage.style.display = 'none';
+}
 
 
+////handel the cart buttons with sweet Alert
+
+clearButton.addEventListener('click', (e) => {
+
+  e.preventDefault()
+
+  Swal.fire({
+    title: "you want to delet your Cart ?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+
+      cart.length = 0
+      cartWrapper.style.display = 'none'
+      saveinLocalStorage()
+      showItemsInCart()
+
+      Swal.fire({
+        title: "Deleted!",
+        icon: "success",
+
+      });
+    }
+  });
+})
 
 
+sendButton.addEventListener('click', (e) => {
 
+  e.preventDefault()
+  Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Your work has been saved",
+    showConfirmButton: true,
+    timer: 2000
 
+  });
+  saveinLocalStorage()
+  showItemsInCart()
 
-
-
-
-
-
-
-
+})
 
 
 
