@@ -42,10 +42,10 @@ const getDataFromApi = async () => {
 
   const res = await fetch('https://fakestoreapi.com/products')
   const data = await res.json();
-  loading.style.display = 'none'
-  cartMessage.style.display = '';
-  cartMessage.style.display = 'block';
-  productlist.innerHTML = ""
+  loading.style.display = 'none';
+  productlist.innerHTML = "";
+  seconSite.style.display = 'none';
+
 
 
   console.log(data);
@@ -123,22 +123,20 @@ const saveToCart = (item) => {
 
 const showItemsInCart = () => {
   placeOfCarts.innerHTML = ""
+  cartMessage.innerHTML = '';
 
 
   if (cart.length === 0) {
     cartMessage.style.display = 'block';
     cartMessage.textContent = 'cart is empty !'
     cartWrapper.style.display = 'none';
-
-
   } else {
-    cartMessage.style.display = 'none';
-    cartMessage.textContent = '';
+    hideError(cartMessage)
     cartWrapper.style.display = 'block';
   }
 
 
-  
+
   ///item prices in cart
 
   const totalP = cart.reduce((total, item) => {
@@ -224,7 +222,6 @@ const decreaseBtn = (item) => {
   saveinLocalStorage()
   showItemsInCart()
 
-
 }
 
 const increaseBtn = (item) => {
@@ -232,10 +229,8 @@ const increaseBtn = (item) => {
   const finding = cart.find(i => i.id === item.id);
 
   if (finding) { finding.quantity++ }
-
   saveinLocalStorage()
   showItemsInCart()
-
 
 }
 
@@ -246,14 +241,9 @@ const deletBtn = (item) => {
 
   showItemsInCart()
   saveinLocalStorage()
-
-
 }
 
-
 ///here is handel all button on DOM
-
-
 //Rendering 
 
 const handelButtons = (buttons) => {
@@ -267,7 +257,6 @@ const handelButtons = (buttons) => {
     btn.innerHTML = `
     
            <button data-category="${category}" type="button" onclick="searchItemCategory(this)"
-           
            class="catbtn" >  ${category} </button>
     `
     buttonCategories.appendChild(btn)
@@ -283,7 +272,8 @@ const searchItemCategory = async (it) => {
   const res = await fetch('https://fakestoreapi.com/products');
   const data = await res.json();
   productlist.innerHTML = ""
-  loading.style.display = 'none'
+  firstSite.style.display = 'none';
+  loading.style.display = 'none';
   Input.value = ""
 
   const index = it.dataset.category
@@ -354,7 +344,7 @@ const titleLower = (title) => {
   const shortIt = title.split(" ");
   if (shortIt.length > 1) {
 
-    return `${shortIt[0]}  ${shortIt[1]} ...`
+    return `${shortIt[0]}  ${shortIt[1]}`
   }
   else { return shortIt }
 
@@ -381,10 +371,9 @@ const hideError = () => {
 }
 
 
-////handel the cart buttons with sweet Alert
+////handel the cart buttons with sweet Alert2
 
 clearButton.addEventListener('click', (e) => {
-
   e.preventDefault()
 
   Swal.fire({
@@ -415,6 +404,7 @@ clearButton.addEventListener('click', (e) => {
 sendButton.addEventListener('click', (e) => {
 
   e.preventDefault()
+
   Swal.fire({
     position: "center",
     icon: "success",
@@ -425,9 +415,7 @@ sendButton.addEventListener('click', (e) => {
   });
   saveinLocalStorage()
   showItemsInCart()
-
 })
 
-
-
 getDataFromApi()
+

@@ -2,7 +2,6 @@ body {
   padding: 0;
   margin: 0;
   background-color: #070e21;
-
 }
 
 button {
@@ -23,7 +22,6 @@ button {
   justify-content: space-between;
   align-items: center;
   background-color: rgb(36, 41, 64);
-
 }
 
 .productSymbol {
@@ -34,7 +32,6 @@ button {
 }
 
 .search-input {
-
   height: 42px;
   width: 300px;
   border-radius: 30px;
@@ -117,11 +114,9 @@ button {
 ::placeholder {
   font-size: 15px;
   font-weight: 500;
-
 }
 
 .buttonCategory {
-
   display: flex;
   flex-direction: column;
   width: 18%;
@@ -129,10 +124,8 @@ button {
   height: fit-content;
   overflow: hidden;
   float: right;
-  margin-top: 0;
+  margin-top: 2rem;
   order: 1;
-  margin: 6px;
-  margin-top: 15px;
 }
 
 .buttonCategory button {
@@ -140,7 +133,6 @@ button {
   cursor: pointer;
   height: 50px;
   border-radius: 5px;
-
 }
 
 .Ctext {
@@ -159,22 +151,16 @@ button {
 }
 
 .cartitem {
-
   width: 70%;
-
 }
 
 
 .errorCart {
-
-
   color: rgba(255, 255, 255, 0.64);
   text-align: center;
   margin: 0 auto;
   font-size: 32px;
   margin-top: 1rem;
-  /* display: none; */
-
 }
 
 
@@ -182,18 +168,13 @@ button {
   width: 100%;
   color: black;
   font-size: 16px;
-
-
 }
 
 .allbtns:hover {
-
   transition: all 0.3s;
-
 }
 
 .catbtn {
-
   width: 100%;
 }
 
@@ -214,8 +195,6 @@ button {
   float: right;
   margin-top: 0 !important;
   display: none;
-
-
 }
 
 .cartWrapperButton .totalPrice {
@@ -227,7 +206,6 @@ button {
 }
 
 .cartWrapperButton button {
-
   width: 100%;
   height: 40px;
   cursor: pointer;
@@ -250,10 +228,7 @@ button {
   align-items: center;
   position: relative;
   margin-bottom: 1.8rem;
-
-
 }
-
 
 .fa-times {
   position: absolute;
@@ -297,17 +272,14 @@ abbr {
 
 .cartProduct {
   margin-top: 4rem;
-
 }
 
 .productList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   justify-items: center;
-  gap: 50px;
-
-
-
+  gap: 40px;
+  padding: 20px;
 }
 
 .notexist {
@@ -330,24 +302,19 @@ abbr {
   border-radius: 5px;
   background-color: #cccccc25;
   margin: 15px;
-  min-width: 180px;
-  max-width: 230px;
 
 }
 
 .productItem img {
   width: 100%;
-  height: 70%;
+  height: 65%;
   object-fit: contain;
-
 }
 
 .addtocartbtn:hover {
-
   opacity: 0.7;
   color: white;
   transition: all 0.3s;
-
 }
 
 .productItem h3 {
@@ -356,14 +323,15 @@ abbr {
   padding-left: 10px;
   font-size: 15px;
   overflow: hidden;
-
 }
 
 .productItem div {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 2px;
+  padding: 1px;
+  margin-bottom: 10px;
+  font-size: 20px;
 }
 
 .productItem div button {
@@ -372,6 +340,7 @@ abbr {
   border-radius: 10px;
   border: none;
   color: white;
+  font-size: 16px;
 }
 
 .productItem div p {
@@ -383,7 +352,6 @@ abbr {
 }
 
 .productItem button {
-
   height: 30px;
 }
 
@@ -391,10 +359,8 @@ abbr {
 @media screen and (max-width:500px) {
 
   .bigC .container .buttonCategory {
-
     display: flex;
     width: 100%;
-
     order: 1;
   }
 
@@ -420,13 +386,10 @@ abbr {
     display: flex;
     justify-content: center;
     margin: auto;
-
-
   }
 
   .seconContainer .cartWrapperButton {
     width: 100%;
-
   }
 
   .container {
@@ -441,7 +404,6 @@ abbr {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     margin: 7px;
-
   }
 
   .cartitem {
@@ -450,23 +412,27 @@ abbr {
     flex-direction: column;
     justify-content: space-evenly;
 
-
   }
 
   .productItem {
     width: 90%;
-
 
   }
 
 }
 
 @media screen and (max-width:800px) {
- .bigC .container .buttonCategory {
+  .headerContainer .productSymbol {
+    display: block;
+    margin-left: 1rem;
+    font-size: 1.8rem;
+
+  }
+
+  .bigC .container .buttonCategory {
 
     display: flex;
     width: 100%;
-
     order: 1;
   }
 
@@ -477,7 +443,7 @@ abbr {
 
   .cartProduct,
   .cartTable {
-    margin-top: 1rem;
+    margin-top: 2rem;
     display: flex;
     width: 100% !important;
     justify-content: space-around;
@@ -492,13 +458,29 @@ abbr {
     display: flex;
     justify-content: center;
     margin: auto;
+    min-width: 100px;
+    margin: 0 15px 0;
+  }
 
+  .inputContainer .search-input {
+    min-width: 100px;
+  }
 
+  .headerContainer .fa-btn {
+    margin-right: 20px;
   }
 
   .seconContainer .cartWrapperButton {
     width: 100%;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem;
+  }
 
+  .cartWrapperButton .totalPrice {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    font-size: xx-large;
   }
 
   .container {
@@ -521,15 +503,11 @@ abbr {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-
-
   }
 
   .productItem {
     width: 90%;
 
-
   }
-
 
 }
