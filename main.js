@@ -17,38 +17,40 @@ const sendButton = document.querySelector('.btns')
 const numberOfItem = document.querySelector('.number')
 
 
+let allProduct;
+
 
 cartButton.addEventListener('click', () => {
-
   firstSite.style.display = 'none';
   seconSite.style.display = 'block';
   Input.value = "";
+  errorText.style.display = 'none'
+
 });
 
 productsButton.addEventListener('click', () => {
-
-  firstSite.style.display = 'block';
+  productlist.innerHTML = '';
   seconSite.style.display = 'none';
-  Input.value = "";
-
+  firstSite.style.display = 'block';
+  renderProductSite(allProduct);
+  buttonCategories.style.display = 'block'
+  errorText.style.display = 'none';
+  Input.value = '';
 });
-
 
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
 const getDataFromApi = async () => {
-
   const res = await fetch('https://fakestoreapi.com/products')
   const data = await res.json();
   loading.style.display = 'none';
   productlist.innerHTML = "";
   seconSite.style.display = 'none';
+  buttonCategories.style.display = 'block'
 
-
-
-  console.log(data);
+  // console.log(data);
 
   const makeButton = data.reduce((acc, item) => {
 
@@ -61,12 +63,14 @@ const getDataFromApi = async () => {
   }, ['all'])
 
 
+
+  allProduct = data;
+
+  renderProductSite(allProduct)
   handelButtons(makeButton)
   renderProductSite(data)
   showItemsInCart()
   saveinLocalStorage()
-
-
 }
 
 
@@ -131,7 +135,8 @@ const showItemsInCart = () => {
     cartMessage.textContent = 'cart is empty !'
     cartWrapper.style.display = 'none';
   } else {
-    hideError(cartMessage)
+    cartMessage.style.display = 'none';
+    cartMessage.textContent = '';
     cartWrapper.style.display = 'block';
   }
 
@@ -247,7 +252,7 @@ const deletBtn = (item) => {
 //Rendering 
 
 const handelButtons = (buttons) => {
-  productlist.innerHTML = ""
+  // productlist.innerHTML = ""
 
   buttons.forEach(category => {
 
@@ -272,7 +277,6 @@ const searchItemCategory = async (it) => {
   const res = await fetch('https://fakestoreapi.com/products');
   const data = await res.json();
   productlist.innerHTML = ""
-  firstSite.style.display = 'none';
   loading.style.display = 'none';
   Input.value = ""
 
@@ -287,10 +291,13 @@ const searchItemCategory = async (it) => {
     renderProductSite(data)
   }
 
+
   renderProductSite(filtring)
   saveinLocalStorage()
 
 }
+
+
 
 
 
@@ -359,15 +366,11 @@ const saveinLocalStorage = () => {
 const errorMessage = (err) => {
   errorText.textContent = err;
   errorText.style.display = 'block';
-  cartMessage.textContent = err;
-  cartMessage.style.display = 'block';
 }
 
 const hideError = () => {
   errorText.textContent = "";
   errorText.style.display = 'none';
-  cartMessage.style.display = 'none';
-  cartMessage.style.display = 'none';
 }
 
 
