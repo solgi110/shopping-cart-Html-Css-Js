@@ -43,10 +43,11 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
 const getDataFromApi = async () => {
+   productlist.innerHTML = "";
+  
   const res = await fetch('https://fakestoreapi.com/products')
   const data = await res.json();
   loading.style.display = 'none';
-  productlist.innerHTML = "";
   seconSite.style.display = 'none';
   buttonCategories.style.display = 'block'
 
@@ -56,17 +57,12 @@ const getDataFromApi = async () => {
 
     if (!acc.includes(item.category)) {
       acc.push(item.category)
-
     }
     return acc
-
   }, ['all'])
 
 
-
   allProduct = data;
-
-  renderProductSite(allProduct)
   handelButtons(makeButton)
   renderProductSite(data)
   showItemsInCart()
